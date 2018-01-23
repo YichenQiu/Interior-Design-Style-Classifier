@@ -16,10 +16,10 @@ def fit_lgmodel(n_image=300,C=1.0):
     accuracy=accuracy_score(y_test,pred)
     print ("log_loss score is {}".format(log_loss_score))
     print ("Accuracy score is {}".format(accuracy))
-
+    return lgmodel
 
 def feature_label(n_image):
-    style_list=['Industrial','coastal','Bohemian']
+    style_list=['Industrial','coastal','Bohemian','Scandinavian']
     X_list=[]
     y_arr=np.array([])
     for i,n in enumerate(style_list):
@@ -27,12 +27,14 @@ def feature_label(n_image):
         X_list+=X
         X_arr=np.array(X_list)
         y_arr=np.append(y_arr,np.zeros((n_image,))+i)
-    print (y_arr.shape)
-    print(X_arr.shape)
     return X_arr,y_arr
 
 
 def feature_avgrgb(folder,n_image,label):
+    '''Iterate through images in the folder
+       Extract the RGB info from an image
+       Calculate the mean R,G,B for each image
+       Return a list of list of average R,G,B'''
     result_list=[]
     for image in os.listdir(folder)[:n_image]:
         im = Image.open("{}/{}".format(folder,image))
@@ -41,5 +43,4 @@ def feature_avgrgb(folder,n_image,label):
         meanrbg=pixel_value.mean(axis=0)
         r,g,b=meanrbg[0],meanrbg[1],meanrbg[2]
         result_list.append([r,g,b])
-    print (len(result_list))
     return result_list

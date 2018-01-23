@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Combinations">
+  <meta name="author" content="Yichen">
+  <title>Combinations Calculator!</title>
+
+
+  <style>
+    td {
+      padding: 5px;
+      text-align: center;
+    }
+  </style>
+
+  <script>
+    submit = function(){
+  	  n = $("#n").val()
+  	  r = $("#r").val()
+  	  equation = {'n' : n, 'r' : r}
+
+  	  $.post({
+  	    url: "/classify",
+  		  contentType: "application/json",
+  		  data: JSON.stringify(equation),
+        success: function(result){
+		       $(".hidden").css("display","inline").html("Result is " + result.pred);
+         }
+      });
+  	}
+  </script>
+
+</head>
+<body>
+  <section>
+    <h5 >Please input your image</h5>
+      <div>
+        <p><span></span></p>
+        <text>
+          <form action="myform.cgi">
+            <input type="file" name="fileupload" value="fileupload" id="fileupload">
+            <label for="fileupload"> Select an image to upload</label>
+          </form>
+          <button onclick="submit();">Classify!</button>
+        </text>
+      <div>
+  </section>
+
+</body>
+</html>
