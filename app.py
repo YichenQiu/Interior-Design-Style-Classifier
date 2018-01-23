@@ -1,19 +1,22 @@
 from __future__ import division
 from flask import Flask, render_template, request,jsonify
+from flask_uploads import UploadSet, IMAGES, configure_uploads
 from ModelClass import LgModel
 
 app = Flask(__name__)
 model = LgModel()
+#photos = UploadSet('photos', IMAGES)
+#app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
+#configure_uploads(app, photos)
 
 @app.route('/')
 def index():
     return render_template('interior_design.html')
 
-@app.route("/classify", methods=["POST"])
-def classify():
-    user_data = request.get_json()
-
-    predictions=model.predict(image)
+@app.route("/upload", methods=["POST"])
+def upload():
+    filename = request.files.get()
+    predictions=model.predict(filename)
     return jsonify({'pred':predictions})
 
 
