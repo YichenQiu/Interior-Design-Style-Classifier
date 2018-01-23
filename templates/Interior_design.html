@@ -21,24 +21,24 @@
     <h5 >Please input your image</h5>
       <div>
         <p><span></span></p>
-        <form action="upload" method="post" id="upload-form">
-          <input type="image/apng" name="imagefile" id="imagefile"/>
-          <input onclick="submit();" type="submit"/>
+        <form action="/upload" method="post" id="upload-form">
+          <input type="file" name="imagefile" id="imagefile"/>
+          <input type="submit"/>
         </form>
       <div>
   </section>
-  <!-- <script>
+  <script>
       submit = function(){
         image=$("#imagefile")
     	  $.post({
     	    url: "/upload",
-          contentType:"image/apng",
+          contentType:"image/png",
           data:image
           success: function(result){
   		       $(".hidden").css("display","inline").html("Result is " + result.pred);
            }
         });
     	}
-    </script> -->
+    </script>
 </body>
 </html>

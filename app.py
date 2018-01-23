@@ -15,7 +15,7 @@ def index():
 
 @app.route("/upload", methods=["POST"])
 def upload():
-    filename = request.files.get()
+    filename = request.form()
     predictions=model.predict(filename)
     return jsonify({'pred':predictions})
 
