@@ -13,7 +13,7 @@ class LgModel(object):
         '''Takes an image
             Returns its average RGB as feature matrix '''
         result_list=[]
-        #im = Image.open(image)
+        im = Image.open(image)
         im=im.resize((200,200))
         pixel_value=np.array(im.getdata())
         meanrbg=pixel_value.mean(axis=0)
@@ -29,5 +29,5 @@ class LgModel(object):
         self.X=X
         with open("lgModel.pkl",'rb') as f:
             lgmodel = pk.load(f)
-        predictions=lgmodel.predict_proba(X)
+        pred=lgmodel.predict_proba(X)
         return style_list[np.argmax(pred)]

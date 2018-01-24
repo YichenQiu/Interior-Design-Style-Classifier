@@ -3,6 +3,7 @@ import io
 import jsonpickle
 import numpy as np
 import cv2
+from PIL import Image
 from ModelClass import LgModel
 
 app = Flask(__name__)
@@ -15,12 +16,15 @@ def home():
 
 @app.route("/", methods=["POST"])
 def get_image():
-    photo = request.files['photo']
-    in_memory_file = io.BytesIO()
-    photo.save(in_memory_file)
-    data = np.fromstring(in_memory_file.getvalue(), dtype=np.uint8)
-    color_image_flag=-1
-    img = cv2.imdecode(data, color_image_flag)
+    photo = request.files['photo'].read()
+    img = io.BytesIO(photo)
+    #photo.save(in_memory_file,"PNG")
+    #in_memory_file.seek(0)
+    #photo=in_memory_file.read()
+    #data=io.BytesIO(photo)
+    #data = np.fromstring(in_memory_file.getvalue(), dtype=np.uint8)
+    #color_image_flag=-1
+    #img = cv2.imdecode(data, color_image_flag)
     model=LgModel()
     prediction=model.predict(img)
     # do some fancy processing here....
