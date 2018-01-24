@@ -13,7 +13,7 @@ class LgModel(object):
         '''Takes an image
             Returns its average RGB as feature matrix '''
         result_list=[]
-        im = Image.open(image)
+        #im = Image.open(image)
         im=im.resize((200,200))
         pixel_value=np.array(im.getdata())
         meanrbg=pixel_value.mean(axis=0)
