@@ -15,10 +15,11 @@ app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024 # 32 mb image
 def home():
     return render_template('Interior_design.html')
 
-@app.route("/", methods=["POST"])
+@app.route("/classify", methods=["POST"])
 def get_image():
-    photo = request.files['photo'].read()
-    img = io.BytesIO(photo)
+    file_object=request.files['photo']
+    photo = file_object.read()
+    #img = io.BytesIO(photo)
     #photo.save(in_memory_file,"PNG")
     #in_memory_file.seek(0)
     #photo=in_memory_file.read()
@@ -31,10 +32,12 @@ def get_image():
     # do some fancy processing here....
     # encode response using jsonpickle
     #response_pickled = jsonpickle.encode(response)
-    prediction=predict_result(img)
+    prediction=predict_result(photo)
     return Response(response=prediction, status=200, mimetype="text/plain")
 
-
+# def get_filename():
+#     user_data = request.get_json[]
+#     n,r=int(user_data['n'])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True)
