@@ -5,6 +5,7 @@ import numpy as np
 import cv2
 from PIL import Image
 from ModelClass import LgModel
+from scripts.label_image import predict_result
 
 app = Flask(__name__)
 
@@ -25,15 +26,12 @@ def get_image():
     #data = np.fromstring(in_memory_file.getvalue(), dtype=np.uint8)
     #color_image_flag=-1
     #img = cv2.imdecode(data, color_image_flag)
-    model=LgModel()
-    prediction=model.predict(img)
+    #model=LgModel()
+    #prediction=model.predict(img)
     # do some fancy processing here....
-
-
-
     # encode response using jsonpickle
     #response_pickled = jsonpickle.encode(response)
-
+    prediction=predict_result(img)
     return Response(response=prediction, status=200, mimetype="text/plain")
 
 

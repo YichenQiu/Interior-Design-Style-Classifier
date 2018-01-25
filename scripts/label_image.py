@@ -40,17 +40,17 @@ def read_tensor_from_image_file(file_name, input_height=299, input_width=299,
 				input_mean=0, input_std=255):
   input_name = "file_reader"
   output_name = "normalized"
-  file_reader = tf.read_file(file_name, input_name)
+  #file_reader = tf.read_file(file_name, input_name)
   if file_name.endswith(".png"):
-    image_reader = tf.image.decode_png(file_reader, channels = 3,
+    image_reader = tf.image.decode_png(file_name, channels = 3,
                                        name='png_reader')
   elif file_name.endswith(".gif"):
-    image_reader = tf.squeeze(tf.image.decode_gif(file_reader,
+    image_reader = tf.squeeze(tf.image.decode_gif(file_name,
                                                   name='gif_reader'))
   elif file_name.endswith(".bmp"):
-    image_reader = tf.image.decode_bmp(file_reader, name='bmp_reader')
+    image_reader = tf.image.decode_bmp(file_name, name='bmp_reader')
   else:
-    image_reader = tf.image.decode_jpeg(file_reader, channels = 3,
+    image_reader = tf.image.decode_jpeg(file_name, channels = 3,
                                         name='jpeg_reader')
   float_caster = tf.cast(image_reader, tf.float32)
   dims_expander = tf.expand_dims(float_caster, 0);
@@ -68,8 +68,42 @@ def load_labels(label_file):
     label.append(l.rstrip())
   return label
 
+def predict_result(file_name):
+    model_file = "tf_files/retrained_graph.pb"
+    label_file = "tf_files/retrained_labels.txt"
+    input_height = 299
+    input_width = 299
+    input_mean = 128
+    input_std = 128
+    input_layer = "Mul"
+    output_layer = "final_result"
+
+    graph = load_graph(model_file)
+    t = read_tensor_from_image_file(file_name,
+                                  input_height=input_height,
+                                  input_width=input_width,
+                                  input_mean=input_mean,
+                                  input_std=input_std)
+
+    input_name = "import/" + input_layer
+    output_name = "import/" + output_layer
+    input_operation = graph.get_operation_by_name(input_name);
+    output_operation = graph.get_operation_by_name(output_name);
+
+    with tf.Session(graph=graph) as sess:
+        start = time.time()
+        results = sess.run(output_operation.outputs[0],
+                          {input_operation.outputs[0]: t})
+        end=time.time()
+    results = np.squeeze(results)
+
+    top_k = results.argsort()[-5:][::-1]
+    labels = load_labels(label_file)
+    return labels[np.argmax(results)]
+
+
 if __name__ == "__main__":
-    file_name = "../style/Bohemian/image_bohemian_decor_41.png"
+    file_name = "../test/industrial_1.png"
     model_file = "../tf_files/retrained_graph.pb"
     label_file = "../tf_files/retrained_labels.txt"
     input_height = 299
