@@ -1,7 +1,7 @@
 import os
 import random
 
-def create_train_files(labels,photo,n)
+def create_train_files(labels,photo,n):
     train_list=[]
     for label in labels:
         train_sample=random.sample(os.listdir("{}/{}".format(photo,label)),n)
@@ -19,7 +19,7 @@ def create_test_files(labels,photo,n):
 
     for label_i,directory in enumerate(test_list):
         for image in directory:
-            os.rename("{}/{}/{}".format(photo,labels[label_i],image), "{}/{}/{}".format(train,labels[label_i],image))
+            os.rename("{}/{}/{}".format(photo,labels[label_i],image), "{}/{}/{}".format(test,labels[label_i],image))
 
 def create_train_test(labels,photo,total_n,ratio):
     test_n=total_n*ratio
@@ -27,7 +27,7 @@ def create_train_test(labels,photo,total_n,ratio):
     create_train_files(labels,photo,train_n)
     create_test_files(labels,photo,test_n)
 
-if __name__==__main__:
+if __name__=="__main__":
     labels=["Bohemian","Coastal","Industrial","Scandinavian"]
     test="style/test"
     train="style/train"
