@@ -1,4 +1,4 @@
-Bohemian
-Coastal
-Industrial
-Scandinavian
+bohemian
+coastal
+industrial
+scandinavian
