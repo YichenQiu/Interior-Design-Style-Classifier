@@ -6,7 +6,7 @@ from collections import defaultdict
 
 
 def dedup_image(directories):
-    for label in directories[:1]:
+    for label in directories:
         d=defaultdict(list)
         for image in os.listdir('{}'.format(label)):
             im=Image.open('{}/{}'.format(label,image))
@@ -18,8 +18,8 @@ def dedup_image(directories):
                 lst.append(list(v))
         for item in lst:
             for image in item [1:]:
-                os.unlink("Interior-Design-Style-Classifier/{}/{}".format(label,image))
+                os.unlink("{}/{}".format(label,image))
 
-if __name__==__main__:
-    directories=['Bohemian','Coastal','Industrial','Scandinavian',"Mid-century odern"]
+if __name__=="__main__":
+    directories=['Bohemian','Coastal','Industrial','Scandinavian',"Mid-century modern"]
     dedup_image(directories)
