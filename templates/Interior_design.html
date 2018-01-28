@@ -4,30 +4,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Combinations">
   <meta name="author" content="Yichen">
+  <link rel="stylesheet" href="../static/css/interior_design.css">
+  <link rel="stylesheet" href="../static/vendor/reset.css">
+  <!-- <link rel="stylesheet" href="../static/vendor/bootstrap/css/bootstrap.min.css"> -->
   <title>Image Classifier</title>
-
-
-  <style>
-    td {
-      padding: 5px;
-      text-align: center;
-    }
-  </style>
-
-
 </head>
 <body>
-  <section>
-    <h5 >Please input your image</h5>
-      <div>
-        <p><span></span></p>
-        <form method="POST" enctype="multipart/form-data" action="/classify">
-          <input type="file" name="photo" />
-          <input type="submit" />
-        </form>
+  <h1>Interior design style classifier</h1>
+  <p>Please input your image</p>
+  <div>
+    <p><span></span></p>
+    <form>
+      <input id="file-input" type="file" name="photo" />
+      <input id="submit-button" type="button" value="Upload" />
+    </form>
+    <!-- <form method="POST" enctype="multipart/form-data" action="/">
+      <input id="file-input" type="file" name="photo" />
+      <input id="submit-button" type="button" value="Upload" />
+    </form> -->
+  </div>
+  
+  <div id="error"></div>
 
-      <div>
-  </section>
+  <div id="image-container" class="image-container">
 
+  </div>
+
+
+  <!-- <script src="../static/vendor/bootstrap/js/bootstrap.min.js"></script> -->
+  <script src="../static/vendor/jquery/jquery.min.js"></script>
+  <script src="../static/js/interior_design.js"></script>
 </body>
 </html>

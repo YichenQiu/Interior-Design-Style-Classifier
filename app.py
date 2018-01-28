@@ -2,22 +2,22 @@ from flask import Flask, render_template, json, jsonify, request, Response
 import io
 import jsonpickle
 import numpy as np
-import cv2
+# import cv2
 from PIL import Image
 from ModelClass import LgModel
 from scripts.label_image import predict_result
 
 app = Flask(__name__)
 
-app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024 # 32 mb image
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 mb image
 
 @app.route("/")
 def home():
     return render_template('Interior_design.html')
 
-@app.route("/classify", methods=["POST"])
+@app.route("/classify", methods=['POST'])
 def get_image():
-    file_object=request.files['photo']
+    file_object = request.files['photo']
     photo = file_object.read()
     #img = io.BytesIO(photo)
     #photo.save(in_memory_file,"PNG")
@@ -32,8 +32,9 @@ def get_image():
     # do some fancy processing here....
     # encode response using jsonpickle
     #response_pickled = jsonpickle.encode(response)
-    prediction=predict_result(photo)
-    return Response(response=prediction, status=200, mimetype="text/plain")
+    prediction = predict_result(photo)
+    return 'hi'
+    # return Response(response=prediction, status=200, mimetype="text/plain")
 
 # def get_filename():
 #     user_data = request.get_json[]
