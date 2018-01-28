@@ -22,34 +22,51 @@ imageInput.addEventListener('change', function() {
     reader.readAsDataURL(imageFile);
 });
 
-/* POST Image */
-$('#submit-button').on('click', function() {
+/* POST image */
+$('#image-upload-form').on('submit', function(e) {
+    e.preventDefault();
+
     if (!imageInput.files.length) {
-        $('#error').text('Please add an image');
+        $('#error').text('Please upload an image before you submit');
         return;
     }
 
-    var fileData = imageInput.files[0];
-    var form_data = new FormData();
-    form_data.append('file', fileData);
+    var form_data = new FormData($(this)[0]);
 
     $.ajax({
-        url: '/classify',
-        dataType: 'string',
         cache: false,
-        contentType: 'file',
-        processData: false,
+        contentType: false,
         data: form_data,
-        type: 'post'
+        processData : false,
+        type: 'POST',
+        url: '/classify'
    })
    .done(function(data) {
         console.log('SUCCESS!');
         console.log('data', data);
+
+        var dataArray = [];
+        for (var prop in data) {
+            var temp = {};
+            temp.style = prop; 
+            temp.value = data[prop];
+            dataArray.push(temp);
+        }
+
+        var sortedData = dataArray.sort(function(style1, style2){
+            return style2.value - style1.value;
+        });
+
+        sortedData.forEach(function(obj) {
+            $('#predictions-container').append(
+                '<div>' + obj.style + ': ' + obj.value + '</div>'
+            );
+        });
    })
-   .fail(function( xhr, status, errorThrown ) {
-        alert( "Sorry, there was a problem!" );
-        console.log( "Error: " + errorThrown );
-        console.log( "Status: " + status );
-        console.dir( xhr );
+   .fail(function(xhr, status, errorThrown) {
+        alert("Sorry, there was a problem!");
+        console.log("Error: " + errorThrown);
+        console.log("Status: " + status);
+        console.dir(xhr);
     });
 });

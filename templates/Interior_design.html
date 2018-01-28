@@ -13,18 +13,17 @@
   <h1>Interior design style classifier</h1>
   <p>Please input your image</p>
   <div>
-    <p><span></span></p>
-    <form>
+    <form id="image-upload-form">
       <input id="file-input" type="file" name="photo" />
-      <input id="submit-button" type="button" value="Upload" />
+      <button id="submit-button" type="submit">
+        Upload
+      </button>
     </form>
-    <!-- <form method="POST" enctype="multipart/form-data" action="/">
-      <input id="file-input" type="file" name="photo" />
-      <input id="submit-button" type="button" value="Upload" />
-    </form> -->
   </div>
   
   <div id="error"></div>
+
+  <div id="predictions-container"></div>
 
   <div id="image-container" class="image-container">
 
