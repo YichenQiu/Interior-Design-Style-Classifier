@@ -39,35 +39,45 @@ import numpy as np
 class inception_retrain(object):
     def __init__(self):
         self.img=None
-
+        self.model=None
+        self.InV3model=None
     def _load_image(self,img):
         '''Takes an image
             Returns its proper form to feed into model's predcition '''
-        img = cv2.imread('test/{}'.format(img))
-        img = cv2.resize(img, (299, 299)) 
-        img = np.expand_dims(img/255, axis=0)
-        img = np.vstack([img])
-        return img
+        #image = cv2.imread('test/{}'.format(img))
+        nparr = np.fromstring(img, np.uint8)
+        image = cv2.imdecode(nparr, -1)
+        image = cv2.resize(image, (299, 299))
+        image = np.expand_dims(image/255, axis=0)
+        image = np.vstack([image])
+        return image
 
     def _feature_extraction_inception(self,img):
         image=self._load_image(img)
         self.img=image
-        model = load_model('inception.h5')
+        #model = load_model('inception.h5')
         # model.compile(loss='categorical_crossentropy,
         #       optimizer='rmsprop',
         #       metrics=['accuracy'])
-        features=model.predict(image)
+        features=self.InV3model.predict(image)
         return features
 
+    def _load_model(self):
+        if self.model is None:
+            self.model=load_model('inV3_last_layer.h5')
+        if self.InV3model is None:
+            self.InV3model=load_model("inception.h5")
+
     def predict(self,img):
-        '''Takes an image
+        '''Takes an imagebbb
            Return the predicted probabilities for each class'''
+        self._load_model()
         image=self._feature_extraction_inception(img)
-        self.image=image
-        model = load_model('inV3_last_layer.h5')
+        self.img=image
+        #self._load_model()
         # model.compile(loss='categorical_crossentropy,
         #       optimizer='rmsprop',
         #       metrics=['accuracy'])
-        pred=model.predict(image)
-        pred=np.round(pred,3).astype(float).reshape(4,)
+        pred=self.model.predict(image)
+        pred=np.round(pred,3).reshape(4,)
         return pred[0],pred[1],pred[2],pred[3]
