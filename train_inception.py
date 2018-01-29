@@ -8,6 +8,8 @@ from keras import backend as K
 from keras.models import Sequential, Model
 from keras.callbacks import EarlyStopping
 import numpy as np
+import pickle as pk
+from keras import regularizers
 
 def feature_extraction_InV3(img_width, img_height,
                         train_data_dir,
@@ -45,20 +47,24 @@ def train_last_layer(img_width, img_height,
                             epochs)
     my_model = Sequential()
     my_model.add(BatchNormalization(input_shape=X_train.shape[1:]))
-    my_model.add(Dense(1024, activation = "relu"))
-    my_model.add(Dense(4, activation='softmax'))
-    my_model.compile(optimizer='rmsprop', loss='categorical_crossentropy',metrics=['accuracy'])
-    early = EarlyStopping(monitor='val_loss', min_delta=0.0001, patience=10, verbose=1, mode='auto')
-    my_model.fit(X_train, y_train,epochs=300,batch_size=30,validation_split=0.15,verbose=1,callbacks=[early])
+    #my_model.add(Dense(1024, activation = "relu"))
+    my_model.add(Dense(4, activation='softmax',kernel_regularizer=regularizers.l2(10)))
+    sgd=optimizers.SGD(lr=0.0001)
+    my_model.compile(optimizer=sgd, loss='categorical_crossentropy',metrics=['accuracy'])
+    early = EarlyStopping(monitor='val_loss', min_delta=0, patience=10, verbose=1, mode='auto')
+    my_model.fit(X_train, y_train,epochs=600,batch_size=30,validation_split=0.15,verbose=1,callbacks=[early])
     return my_model
 
 if __name__=="__main__":
     img_width=299
     img_height = 299
-    train_data_dir = "all_image_final/"
-    num_image=1802
+    train_data_dir = "data/train"
+    num_image=1439
     epochs = 50
     model=train_last_layer(img_width, img_height,
                             train_data_dir,
                             num_image,epochs)
+
     model.save('inV3_last_layer.h5')
+    #with open("InV3LastLayerModel.pkl", 'wb') as f:
+        #pk.dump(model, f)

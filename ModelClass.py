@@ -5,7 +5,7 @@ from PIL import Image
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier
 from keras.models import load_model
-from keras.preprocessing import image
+import cv2
 
 import numpy as np
 
@@ -40,14 +40,14 @@ class inception_retrain(object):
     def __init__(self):
         self.img=None
 
-    def load_image(self,img):
+    def _load_image(self,img):
         '''Takes an image
             Returns its proper form to feed into model's predcition '''
-        im=image.load_img('test/{}'.format(img), target_size=(299, 299))
-        x = image.img_to_array(img)
-        x = np.expand_dims(x/255, axis=0)
-        image = np.vstack([x])
-        return image
+        img = cv2.imread('test/{}'.format(img))
+        img = cv2.resize(img, (299, 299)) 
+        img = np.expand_dims(img/255, axis=0)
+        img = np.vstack([img])
+        return img
 
     def _feature_extraction_inception(self,img):
         image=self._load_image(img)
@@ -64,9 +64,10 @@ class inception_retrain(object):
            Return the predicted probabilities for each class'''
         image=self._feature_extraction_inception(img)
         self.image=image
-        model = load_model('inception_model.h5')
+        model = load_model('inV3_last_layer.h5')
         # model.compile(loss='categorical_crossentropy,
         #       optimizer='rmsprop',
         #       metrics=['accuracy'])
         pred=model.predict(image)
-        return pred
+        pred=np.round(pred,3).astype(float).reshape(4,)
+        return pred[0],pred[1],pred[2],pred[3]
