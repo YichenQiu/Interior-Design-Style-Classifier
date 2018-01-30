@@ -26,7 +26,7 @@ def get_image():
     if model is None:
         model=inception_retrain()
     pred1,pred2,pred3,pred4 = model.predict(photo)
-    Predictions.update({'Bohemian':'{}%'.format(pred1),'Scandinavian':'{}%'.format(pred2),'Industrial':'{}%'.format(pred3),'Coastal':'{}%'.format(pred4)})
+    Predictions.update({'Bohemian':'{:.1%}'.format(pred1),'Coastal':'{:.1%}'.format(pred2),'Industrial':'{:.1%}'.format(pred3),'Scandinavian':'{:.1%}'.format(pred4)})
 
     return jsonify(Predictions)
 

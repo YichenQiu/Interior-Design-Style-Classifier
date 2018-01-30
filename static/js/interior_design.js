@@ -16,6 +16,8 @@ imageInput.addEventListener('change', function() {
         var image = new Image();
         image.src = e.target.result;
 
+        $(imageContainer).empty();
+        $('#predictions-container').empty();
         imageContainer.appendChild(image);
     };
 
@@ -48,7 +50,7 @@ $('#image-upload-form').on('submit', function(e) {
         var dataArray = [];
         for (var prop in data) {
             var temp = {};
-            temp.style = prop; 
+            temp.style = prop;
             temp.value = data[prop];
             dataArray.push(temp);
         }
