@@ -31,13 +31,13 @@ def feature_extraction_InV3(img_width, img_height,
     shuffle=False)
 
     y_train=train_generator.classes
-    y_train1 = np.zeros((num_image, 4))
-    y_train1[np.arange(num_image), y_train] = 1
+    #y_train1 = np.zeros((num_image, 4))
+    #y_train1[np.arange(num_image), y_train] = 1
 
     train_generator.reset
     X_train=model.predict_generator(train_generator,verbose=1)
-    print (X_train.shape,y_train1.shape)
-    return X_train,y_train1,model
+    print (X_train.shape,y_train.shape)
+    return X_train,y_train,model
 
 def train_last_layer(test_data_dir,img_width, img_height,
                         train_data_dir,
@@ -62,9 +62,10 @@ def train_last_layer(test_data_dir,img_width, img_height,
     y_test=test_generator.classes
     test_generator.reset
     X_test=model.predict_generator(test_generator,verbose=1)
-    y_pred=my_model.predict(X_test,verbose=1)
+    y_pred=my_model.predict(X_test)
+    y_pred_prob=my_model.predict_proba(X_test)
     accuracy=accuracy_score(y_test,y_pred.argmax(axis=1))
-    loss=log_loss(y_test,y_pred)
+    loss=log_loss(y_test,y_pred_prob)
     print ("Accuracy score: {}".format (accuracy))
     print ("Log_loss score: {}".format (loss))
     return my_model
