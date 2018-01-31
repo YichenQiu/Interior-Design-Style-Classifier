@@ -61,9 +61,13 @@ $('#image-upload-form').on('submit', function(e) {
 
         sortedData.forEach(function(obj) {
             $('#predictions-container').append(
-                '<div>' + obj.style + ': ' + obj.value + '</div>'
+                '<span style="margin-right: 45px; font-weight: bold; text-transform: uppercase">' + 
+                    '<a title="See more ' + obj.style + ' styles" class="style-link" target="_blank" href="https://google.com/search?q=' + obj.style + '&tbm=isch">' + obj.style + '</a>: '  + obj.value +
+                '</span>'
             );
         });
+
+        $("html, body").animate({ scrollTop: $('#predictions-container').offset().top }, 600);
    })
    .fail(function(xhr, status, errorThrown) {
         alert("Sorry, there was a problem!");

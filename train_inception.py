@@ -31,13 +31,13 @@ def feature_extraction_InV3(img_width, img_height,
     shuffle=False)
 
     y_train=train_generator.classes
-    #y_train1 = np.zeros((num_image, 4))
-    #y_train1[np.arange(num_image), y_train] = 1
+    y_train1 = np.zeros((num_image, 4))
+    y_train1[np.arange(num_image), y_train] = 1
 
     train_generator.reset
     X_train=model.predict_generator(train_generator,verbose=1)
-    print (X_train.shape,y_train.shape)
-    return X_train,y_train,model
+    print (X_train.shape,y_train1.shape)
+    return X_train,y_train1,model
 
 def train_last_layer(test_data_dir,img_width, img_height,
                         train_data_dir,

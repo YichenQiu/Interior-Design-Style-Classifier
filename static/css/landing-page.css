@@ -40,8 +40,8 @@ header.masthead h1 {
 
 @media (min-width: 768px) {
   header.masthead {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 12rem;
+    padding-bottom: 23rem;
   }
   header.masthead h1 {
     font-size: 3rem;
@@ -129,6 +129,39 @@ button:hover {
   cursor: pointer;
 }
 
+.image-container {
+  margin: 0 auto;
+  padding-bottom: 500px;
+}
+
 .image-container img {
-  width: 100%;
+  /*width: 100%;*/
+  /*max-width: 450px;*/
+  /*max-height: 650px;*/
+}
+
+.btn.btn-block {
+  background: #ffffffd4;
+}
+
+.btn.btn-block:hover {
+  background: black;
+  color: white;
+}
+
+.see-more-text {
+  display: none;
+}
+
+.see-more-text:hover {
+  display: block;
+}
+
+.style-link {
+  color: black;
+  text-decoration: underline;
+}
+
+.mb-5 {
+  margin-bottom: 1rem !important;
 }
