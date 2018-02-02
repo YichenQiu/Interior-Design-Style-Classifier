@@ -46,7 +46,7 @@ class inception_retrain(object):
             Returns its proper form to feed into model's predcition '''
         #image = cv2.imread('test/{}'.format(img))
         nparr = np.fromstring(img, np.uint8)
-        image = cv2.imdecode(nparr, -1)
+        image = cv2.imdecode(nparr, -1)[:,:,:3]
         image = cv2.resize(image, (299, 299))
         image = np.expand_dims(image/255, axis=0)
         image = np.vstack([image])
