@@ -61,8 +61,8 @@ $('#image-upload-form').on('submit', function(e) {
 
         sortedData.forEach(function(obj) {
             $('#predictions-container').append(
-                '<span style="margin-right: 45px; font-weight: bold; text-transform: uppercase">' + 
-                    '<a title="See more ' + obj.style + ' styles" class="style-link" target="_blank" href="https://google.com/search?q=' + obj.style + '&tbm=isch">' + obj.style + '</a>: '  + obj.value +
+                '<span style="margin-right: 45px; font-weight: bold; text-transform: uppercase">' +
+                    '<a title="See more ' + obj.style + ' styles" class="style-link" target="_blank" href="https://google.com/search?q=' + obj.style + '+interior+design&tbm=isch">' + obj.style + '</a>: '  + obj.value +
                 '</span>'
             );
         });
